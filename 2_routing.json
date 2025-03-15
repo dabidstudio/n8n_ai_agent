@@ -7,10 +7,10 @@
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.1,
       "position": [
-        -160,
-        -60
+        -940,
+        440
       ],
-      "id": "d58063cd-aa74-4a19-aec8-dba17960ef7b",
+      "id": "2d1a1b5a-2e10-4596-8154-cd5c86a3c269",
       "name": "When chat message received",
       "webhookId": "b5820868-259f-4f82-9d95-e38ed04315d8"
     },
@@ -23,51 +23,11 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.7,
       "position": [
-        80,
-        -60
+        -720,
+        440
       ],
-      "id": "2dded1a9-0ba5-42f1-aff9-a24617d71a2c",
+      "id": "7c5ad158-e52a-4c5e-9134-f2c080271bcc",
       "name": "AI Agent"
-    },
-    {
-      "parameters": {
-        "model": {
-          "__rl": true,
-          "value": "gpt-4o-mini",
-          "mode": "list",
-          "cachedResultName": "gpt-4o-mini"
-        },
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
-      "typeVersion": 1.2,
-      "position": [
-        60,
-        140
-      ],
-      "id": "d8ed10e9-c4b9-44cc-bf45-963ff374a0d4",
-      "name": "OpenAI Chat Model",
-      "credentials": {
-        "openAiApi": {
-          "id": "noZUZUXLYwqWDZPh",
-          "name": "OpenAi account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "content": "일반 버전 (형식을 강제하지 않음)",
-        "height": 80,
-        "width": 200
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        -600,
-        0
-      ],
-      "typeVersion": 1,
-      "id": "c8af410f-b3f3-4f14-9736-dde30e3c4ce6",
-      "name": "Sticky Note"
     },
     {
       "parameters": {
@@ -148,10 +108,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        440,
-        -60
+        -360,
+        440
       ],
-      "id": "239558cb-dc8a-4c03-ab81-94479066c84a",
+      "id": "f8899abb-7149-4ad9-a134-86189c9e920b",
       "name": "Switch"
     },
     {
@@ -163,36 +123,86 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.7,
       "position": [
-        800,
-        -500
+        -40,
+        260
       ],
-      "id": "8d420ff1-55c4-4e83-a247-55fd8bdd32f3",
+      "id": "4bf4bb2a-b29e-4516-b192-504b0c263267",
       "name": "gpt-4o agent"
     },
     {
       "parameters": {
-        "model": {
-          "__rl": true,
-          "value": "gpt-4o",
-          "mode": "list",
-          "cachedResultName": "gpt-4o"
-        },
+        "promptType": "define",
+        "text": "={{ $('When chat message received').item.json.chatInput }}",
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
-      "typeVersion": 1.2,
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
       "position": [
-        800,
-        -340
+        -40,
+        660
       ],
-      "id": "5dce4236-9d26-45d8-a7e1-cef11266c6d4",
-      "name": "OpenAI Chat Model1",
-      "credentials": {
-        "openAiApi": {
-          "id": "noZUZUXLYwqWDZPh",
-          "name": "OpenAi account"
-        }
-      }
+      "id": "b3f2c16c-9621-46a2-83a8-c9029994f9e5",
+      "name": "gpt-4o-mini-agent"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('When chat message received').item.json.chatInput }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -40,
+        440
+      ],
+      "id": "a1e3d185-c0be-47c7-a0b2-3faa855b9d54",
+      "name": "o3-mini-agent"
+    },
+    {
+      "parameters": {
+        "content": "## Router 프롬프트\n\n사용자의 프롬프트/질문: (질문)\n\n각 모델은 서로 다른 기능을 가지고 있습니다. 사용자의 질문에 가장 적합한 모델을 선택하세요:\n- gpt-4o: 일반적인 작업에 가장 적합한 모델 (기본값)\n- o3-mini: 코딩 및 복잡한 문제 해결에 적합한 모델\n- gpt-4o-mini: 1+1 등의 간단한 사칙연산 등의 작업에 적합한 모델 \n\n모델명만 단답형으로 응답하세요",
+        "height": 300,
+        "width": 540
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -820,
+        760
+      ],
+      "typeVersion": 1,
+      "id": "ffee0eb4-d18e-446c-bf4a-03d58876b271",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "![image](https://github.com/user-attachments/assets/fb02f28c-3938-43f2-a863-0127a26aa3f3)",
+        "height": 440,
+        "width": 780
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -980,
+        -40
+      ],
+      "typeVersion": 1,
+      "id": "340361b0-9da9-42ce-bcac-c0ceb8a42ae0",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## 질문 1\n1더하기 2는 뭐지?\n\n## 질문 2\n리스본 여행일정을 짜줘\n\n## 질문 3\n파이썬으로 API 웹서버를 만들어줘",
+        "height": 240,
+        "width": 300
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -100,
+        -40
+      ],
+      "typeVersion": 1,
+      "id": "e2cdec95-ab38-4ea1-b469-f8f2064cc550",
+      "name": "Sticky Note2"
     },
     {
       "parameters": {
@@ -207,14 +217,14 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        840,
-        100
+        -140,
+        460
       ],
-      "id": "53456195-04cf-4992-8a0c-d206980f3cd4",
-      "name": "OpenAI Chat Model2",
+      "id": "0f9f9399-b879-4c41-afca-b05be529ca41",
+      "name": "o3-mini",
       "credentials": {
         "openAiApi": {
-          "id": "noZUZUXLYwqWDZPh",
+          "id": "MkbUNNMdG6OqTkSw",
           "name": "OpenAi account"
         }
       }
@@ -232,47 +242,67 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        780,
-        480
+        -140,
+        660
       ],
-      "id": "c759c116-6c4d-4306-bc1d-3a917ca58e46",
-      "name": "OpenAI Chat Model3",
+      "id": "238bf526-a9a4-4a06-88cd-8bcf517904b5",
+      "name": "gpt-4o-mini",
       "credentials": {
         "openAiApi": {
-          "id": "noZUZUXLYwqWDZPh",
+          "id": "MkbUNNMdG6OqTkSw",
           "name": "OpenAi account"
         }
       }
     },
     {
       "parameters": {
-        "promptType": "define",
-        "text": "={{ $('When chat message received').item.json.chatInput }}",
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 1.7,
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
       "position": [
-        780,
-        320
+        -140,
+        280
       ],
-      "id": "a821323b-cab5-40ae-a5d6-132a5bf3e860",
-      "name": "gpt-4o-mini-agent"
+      "id": "fa33f3c8-2f78-4173-b1d9-f9decd64bcb2",
+      "name": "gpt-4o",
+      "credentials": {
+        "openAiApi": {
+          "id": "MkbUNNMdG6OqTkSw",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
-        "promptType": "define",
-        "text": "={{ $('When chat message received').item.json.chatInput }}",
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 1.7,
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
       "position": [
-        820,
-        -60
+        -720,
+        620
       ],
-      "id": "e4dca115-49b0-4500-a841-3ee7b14f5d87",
-      "name": "o3-mini-agent"
+      "id": "a94d1848-079a-480d-90fe-f30f2f59931c",
+      "name": "gpt-4o-mini1",
+      "credentials": {
+        "openAiApi": {
+          "id": "MkbUNNMdG6OqTkSw",
+          "name": "OpenAi account"
+        }
+      }
     }
   ],
   "connections": {
@@ -293,17 +323,6 @@
           {
             "node": "Switch",
             "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "OpenAI Chat Model": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_languageModel",
             "index": 0
           }
         ]
@@ -334,18 +353,7 @@
         ]
       ]
     },
-    "OpenAI Chat Model1": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "gpt-4o agent",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "OpenAI Chat Model2": {
+    "o3-mini": {
       "ai_languageModel": [
         [
           {
@@ -356,11 +364,33 @@
         ]
       ]
     },
-    "OpenAI Chat Model3": {
+    "gpt-4o-mini": {
       "ai_languageModel": [
         [
           {
             "node": "gpt-4o-mini-agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "gpt-4o": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "gpt-4o agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "gpt-4o-mini1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
             "type": "ai_languageModel",
             "index": 0
           }
@@ -371,6 +401,6 @@
   "pinData": {},
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "6a5897f6bf0811d95fc82551662ff519797863d4fb48518f22757bd460e7c947"
+    "instanceId": "a0de59fb67a306760be20dbd8aba519c63a4cb9ac17688723a86b070cf9ddc17"
   }
 }
