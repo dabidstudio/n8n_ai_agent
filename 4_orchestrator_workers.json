@@ -9,10 +9,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.7,
       "position": [
-        60,
-        -100
+        40,
+        4600
       ],
-      "id": "6457c6b7-f477-4b3b-a6ce-0980441d47a5",
+      "id": "f38d2ea0-9611-418b-b03b-632119ca1452",
       "name": "AI Agent"
     },
     {
@@ -27,14 +27,14 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        20,
-        80
+        0,
+        4780
       ],
-      "id": "193e68b4-0c0d-457e-9b71-499a75e2916e",
+      "id": "b8e5f540-79c7-4f0b-899f-0986243f5f86",
       "name": "OpenAI Chat Model",
       "credentials": {
         "openAiApi": {
-          "id": "noZUZUXLYwqWDZPh",
+          "id": "MkbUNNMdG6OqTkSw",
           "name": "OpenAi account"
         }
       }
@@ -48,10 +48,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        400,
-        -100
+        380,
+        4600
       ],
-      "id": "3e092f92-f676-4598-aba9-2f141cdafdd6",
+      "id": "f0aa3a17-c616-4ed8-8463-98b361e07b35",
       "name": "json인식"
     },
     {
@@ -62,10 +62,10 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        560,
-        -100
+        540,
+        4600
       ],
-      "id": "a281a054-0bab-4395-90af-4f0d3d59d06b",
+      "id": "2b05dbdd-086d-4f39-baba-346b2c0f8bd9",
       "name": "Split Out"
     },
     {
@@ -80,14 +80,14 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        840,
-        120
+        820,
+        4820
       ],
-      "id": "156083c7-b6bc-404a-b7f3-ff7d63ea51cc",
+      "id": "294d1516-6e86-4cdd-815a-d63c85bca772",
       "name": "OpenAI Chat Model1",
       "credentials": {
         "openAiApi": {
-          "id": "noZUZUXLYwqWDZPh",
+          "id": "MkbUNNMdG6OqTkSw",
           "name": "OpenAi account"
         }
       }
@@ -101,10 +101,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3,
       "position": [
-        1260,
-        -80
+        1240,
+        4620
       ],
-      "id": "d01c63d7-a8c3-4fe6-8b90-965d7a5dc96f",
+      "id": "31c59983-2bd2-42ec-9e17-a8318cf4081b",
       "name": "Merge"
     },
     {
@@ -115,10 +115,10 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        1420,
-        -80
+        1400,
+        4620
       ],
-      "id": "78a89bbb-c390-420d-a743-32ad3124239f",
+      "id": "817c2e23-47e6-4bba-a567-717fcb2cd64e",
       "name": "Aggregate"
     },
     {
@@ -133,46 +133,17 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        1720,
-        100
+        1700,
+        4800
       ],
-      "id": "b24bda5f-ee5a-4f77-b969-6ee97a079d2b",
+      "id": "edef4ec6-5056-4dc5-9e9a-0ac1104fb29c",
       "name": "OpenAI Chat Model4",
       "credentials": {
         "openAiApi": {
-          "id": "noZUZUXLYwqWDZPh",
+          "id": "MkbUNNMdG6OqTkSw",
           "name": "OpenAi account"
         }
       }
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
-      "typeVersion": 1.1,
-      "position": [
-        -360,
-        -100
-      ],
-      "id": "8ae917a3-c04f-4e4c-a805-d5604d156767",
-      "name": "When chat message received",
-      "webhookId": "3b6d6f09-f67c-4b58-b0fe-078f5ddde7c2"
-    },
-    {
-      "parameters": {
-        "promptType": "define",
-        "text": "=아래는 사용자의 원래 질문에 대해서 하위 질문을 나누고 응답한 결과입니다.\n아래 질문 및 응답내용을 포함한 최종 응답을 제공해주세요.\n## 요청사항\n- 하위질문 응답내용이 최대한 포괄적이고 상세하게 포함되어야 합니다\n### 사용자의 원래 질문:\n{{ $('When chat message received').item.json.chatInput }}\n### 하위 질문 및 응답:\n{{ JSON.stringify($json.data, null, 2) }}\n\n",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 1.7,
-      "position": [
-        1700,
-        -80
-      ],
-      "id": "4bb1dc99-bcb3-44e2-9184-680c89be19a7",
-      "name": "Orchestrator"
     },
     {
       "parameters": {
@@ -183,11 +154,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1640,
-        -220
+        1620,
+        4480
       ],
       "typeVersion": 1,
-      "id": "225bbd1a-6b6a-472f-a7f3-5dd4f4ba2f66",
+      "id": "e19e373a-2918-498d-b345-09e4ad015194",
       "name": "Sticky Note"
     },
     {
@@ -199,11 +170,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        740,
-        -220
+        720,
+        4480
       ],
       "typeVersion": 1,
-      "id": "c273dfb2-2f3d-4900-9de5-dac427b39bdd",
+      "id": "90f6349e-ffd8-438e-8734-15d3b6818ef9",
       "name": "Sticky Note1"
     },
     {
@@ -215,10 +186,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.7,
       "position": [
-        860,
-        -20
+        840,
+        4680
       ],
-      "id": "e9eb47fb-2b22-4314-8394-8634f1ccfb35",
+      "id": "32fa196c-484b-41a4-bc25-d698767f0a23",
       "name": "Subagent"
     },
     {
@@ -229,11 +200,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        200,
-        -1020
+        180,
+        3680
       ],
       "typeVersion": 1,
-      "id": "434e6fad-9df4-4e96-9004-520c09cfceaa",
+      "id": "a9633d87-6277-47f4-b5c0-6364bfec9352",
       "name": "Sticky Note2"
     },
     {
@@ -245,11 +216,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -60,
-        -220
+        -80,
+        4480
       ],
       "typeVersion": 1,
-      "id": "d6fdebda-d9ea-4505-9a76-cf57e6dc6b0f",
+      "id": "02c1d9eb-4092-423a-8d71-b50d411d6460",
       "name": "Sticky Note3"
     },
     {
@@ -261,11 +232,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1660,
-        340
+        1640,
+        5040
       ],
       "typeVersion": 1,
-      "id": "974d4d9a-b29e-4077-9716-2c8a0597665f",
+      "id": "841a1b64-abcf-42ed-a645-62ea0d11c58e",
       "name": "Sticky Note4"
     },
     {
@@ -277,11 +248,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        760,
-        360
+        740,
+        5060
       ],
       "typeVersion": 1,
-      "id": "4fb09fce-f323-4595-8b60-7c3fcce366ab",
+      "id": "b697009d-c0da-46ef-b02a-88ac1ae30f61",
       "name": "Sticky Note5"
     },
     {
@@ -292,11 +263,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -420,
-        80
+        -440,
+        4780
       ],
       "typeVersion": 1,
-      "id": "6544f97f-558c-42aa-a396-9d9ee90508dc",
+      "id": "4c80e6b8-17d0-461a-aac9-928ec6a868d6",
       "name": "Sticky Note6"
     },
     {
@@ -309,11 +280,26 @@
       "type": "n8n-nodes-base.stickyNote",
       "position": [
         -80,
-        320
+        5080
       ],
       "typeVersion": 1,
-      "id": "546e3385-b870-4c05-8ad7-229e7990a823",
+      "id": "6efb13bd-8865-467e-9cf6-a6002126428a",
       "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=아래는 사용자의 원래 질문에 대해서 하위 질문을 나누고 응답한 결과입니다.\n아래 질문 및 응답내용을 포함한 최종 응답을 제공해주세요.\n## 요청사항\n- 하위질문 응답내용이 최대한 포괄적이고 상세하게 포함되어야 합니다\n### 사용자의 원래 질문:\n{{ $('When chat message received').item.json.chatInput }}\n### 하위 질문 및 응답:\n{{ JSON.stringify($json.data, null, 2) }}\n\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        1680,
+        4620
+      ],
+      "id": "4bc53e04-969c-4ec5-b999-99b2d3f892ca",
+      "name": "Aggregator"
     }
   ],
   "connections": {
@@ -392,7 +378,7 @@
       "main": [
         [
           {
-            "node": "Orchestrator",
+            "node": "Aggregator",
             "type": "main",
             "index": 0
           }
@@ -403,19 +389,8 @@
       "ai_languageModel": [
         [
           {
-            "node": "Orchestrator",
+            "node": "Aggregator",
             "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "When chat message received": {
-      "main": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "main",
             "index": 0
           }
         ]
@@ -461,7 +436,6 @@
     ]
   },
   "meta": {
-    "templateCredsSetupCompleted": true,
-    "instanceId": "6a5897f6bf0811d95fc82551662ff519797863d4fb48518f22757bd460e7c947"
+    "instanceId": "a0de59fb67a306760be20dbd8aba519c63a4cb9ac17688723a86b070cf9ddc17"
   }
 }
