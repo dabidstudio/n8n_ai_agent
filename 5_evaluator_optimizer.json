@@ -1,0 +1,459 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        640,
+        940
+      ],
+      "id": "720cab84-f1de-4429-887a-7bee3829f336",
+      "name": "When chat message received",
+      "webhookId": "671884c4-a603-482f-9d6f-c6d075e613e4"
+    },
+    {
+      "parameters": {
+        "content": "## 최종 프롬프트\n(기사 링크 : https://zdnet.co.kr/view/?no=20250213091248)\n\n\n\n당신의 목표는 주어진 기사를 요약하는 것입니다. \n아래 주어진 기사 내용을 요약해주세요.\n이전 시도의 요약과 피드백이 있다면, 이를 반영하여 개선된 요약을 작성하세요.\n\n기사 내용: \n\n오픈AI가 몇 주 안에 새로운 모델인 'GPT-4.5'를 출시하며 분산돼 있던 생성형 인공지능(AI) 모델을 통합키로 했다. 추론용 모델인 'o' 시리즈를 정리하고 비(非)추론 모델인 'GPT' 시리즈로 합칠 예정이다.\n\n13일 업계에 따르면 샘 알트먼 오픈AI 최고경영자(CEO)는 지난 12일 자신의 X(옛 트위터)에 'GPT-4.5'를 조만간 출시할 것이라고 밝혔다. 현 세대인 'GPT-4o'의 뒤를 잇는 마지막 '비추론 AI'로, 내부적으로는 '오라이언(Orion)'이라고 불렸다.\n\n현재 챗GPT 이용자를 비롯한 오픈AI의 고객들은 'GPT-4o', 'o1', 'o3-미니', 'GPT-4' 등 모델들을 각자 선택해 활용하고 있다. 최신 모델은 'GPT-4'를 개선한 'GPT-4o'로, 'GPT-4'는 2023년 하반기, 'GPT-4o'는 2024년 상반기 출시됐다.\n\n오픈AI는 'GPT-5'도 지난해 공개하려고 했으나, 예상보다 저조한 성과를 거둬 출시가 연기된 상태다. 이에 그간 연산 시간을 늘려 성능을 높인 'o'시리즈 추론 모델을 새롭게 내세웠다.\n\n샘 알트먼 CEO는 \"이후 공개될 'GPT-5'부터는 추론 모델인 'o'시리즈와 'GPT'를 통합하겠다\"며 \"모델과 제품라인이 복잡해졌음을 잘 알고 있고, 앞으로는 각 모델을 선택해 사용하기보다 그저 잘 작동하길 원한다\"고 말했다.",
+        "height": 560,
+        "width": 720,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -300,
+        900
+      ],
+      "typeVersion": 1,
+      "id": "109dc96d-4596-489b-98e9-b297b36645f1",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.chatInput }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        1060,
+        940
+      ],
+      "id": "dd5ba5e7-4a12-4d19-86cc-183508f236c5",
+      "name": "요약 Agent"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=다음 요약을 평가하십시오:\n\n## 평가기준 (강화된 기준)\n### 1. 핵심 내용 포함 여부  \n   - 원문의 **핵심 개념과 논리적 흐름이 반드시 유지**되어야 합니다.  \n   - 불필요한 세부 사항을 줄일 수 있으나, **세부 정보 요약 과정에서 의미 왜곡이 발생하면 FAIL**입니다.  \n   - 단어 선택이 다소 달라도, **핵심 개념과 논리적 구조가 100% 유지되면 PASS** 가능합니다.  \n   - 원문의 중요 개념 **10% 이상이 빠졌다면 FAIL**입니다. (기존 15% → 10%로 강화)  \n\n### 2. 정확성 & 의미 전달  \n   - 요약이 원문의 의미를 **조금이라도 왜곡하면 FAIL**입니다.  \n   - 숫자, 인명, 날짜 등 **객관적 정보가 단 1개라도 틀리면 FAIL**입니다. (기존보다 엄격)  \n   - 원문의 논리를 유지하되, 표현 방식이 바뀌어도 의미가 정확히 전달되면 PASS 가능합니다.  \n   - 논리적 비약이 있거나 **잘못된 해석이 포함되면 즉시 FAIL**입니다.  \n\n### 3. 간결성 및 가독성  \n   - 문장이 지나치게 길거나 반복적이면 감점 요인입니다.  \n   - 직역체 표현이 많으면 FAIL입니다. (기존 \"지나치면 FAIL\"에서 **엄격하게 FAIL 처리**)  \n   - 일부 단어의 표현 방식이 달라도 자연스럽다면 PASS 가능하지만, **조금이라도 어색하면 FAIL**입니다.  \n   - 문장이 지나치게 어색하여 독해가 어렵다면 **즉시 FAIL**입니다.  \n\n### 4. 문법 및 표현  \n   - 맞춤법, 띄어쓰기 **오류가 3개 이상이면 FAIL**입니다. (기존 5개 → 3개로 강화)  \n   - 사소한 문법 실수라도 의미 전달에 영향을 주면 FAIL입니다.  \n   - 문장이 비문이거나 문맥상 어색한 표현이 발견되면 즉시 FAIL입니다.  \n\n---\n\n## 평가결과 응답예시 (강화된 기준 적용)  \n\n- **모든 기준이 완벽하게 충족되었을 때만 \"평가결과 = PASS\" 출력.  \n- 수정이 필요한 경우, 반드시 구체적인 문제점과 개선 방향을 제시.  \n- 중대한 오류(핵심 개념 누락, 의미 왜곡, 숫자 오류, 논리 비약 등)가 있다면  \n  - 평가결과 = FAIL을 출력하고, 반드시 주요 문제점을 설명.  \n### 최초 프롬프트\n{{ $('최초 프롬프트').first().json.chatInput }}\n### 요약 결과 \n{{ $json.summary }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        1660,
+        900
+      ],
+      "id": "53b97a1c-a999-40ad-b705-8ce2cc8f3793",
+      "name": "Evaluator"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.updatedPrompt }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        2420,
+        1100
+      ],
+      "id": "4148b591-f1ab-4fd4-96e9-9166f667761b",
+      "name": "Optimizer"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1740,
+        1500
+      ],
+      "id": "138e84c7-4d57-4308-bc73-5ba2f534d7a3",
+      "name": "gpt-4o",
+      "credentials": {
+        "openAiApi": {
+          "id": "noZUZUXLYwqWDZPh",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1600,
+        1500
+      ],
+      "id": "fa3126a5-d1e1-4025-abc4-7e1faf3668f6",
+      "name": "gpt-4o-mini",
+      "credentials": {
+        "openAiApi": {
+          "id": "noZUZUXLYwqWDZPh",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "0150f895-f3f5-4d76-9038-a7e817d95e45",
+                    "leftValue": "={{ $runIndex }}",
+                    "rightValue": 2,
+                    "operator": {
+                      "type": "number",
+                      "operation": "gt"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.output}}\n",
+                    "rightValue": "=결과 = PASS",
+                    "operator": {
+                      "type": "string",
+                      "operation": "regex"
+                    },
+                    "id": "b6d3e2ed-c27e-4aee-90ea-2a2006a298df"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "cc10d27d-da19-4823-a07a-8fa64e33a291",
+                    "leftValue": "{{ $json.output}}",
+                    "rightValue": "결과 = PASS",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notRegex"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        2080,
+        840
+      ],
+      "id": "1ac26f46-b10c-4590-a604-6cc6c5708463",
+      "name": "Pass or Fail?"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "83a6934d-4a3d-4415-ac87-42b8f3f48770",
+              "name": "updatedPrompt",
+              "value": "={{ $('최초 프롬프트').first().json.chatInput }}\n\n이전 요약 및 평가 결과\n(요약결과)\n{{ $('요약').first().json.summary }}\n\n(평가결과)\n{{ $('Evaluator').first().json.output }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2260,
+        1100
+      ],
+      "id": "bc1686c1-c76c-47c7-81c6-7d608f2a5120",
+      "name": "프롬프트 업데이트"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "83a6934d-4a3d-4415-ac87-42b8f3f48770",
+              "name": "output",
+              "value": "={{ $('요약').first().json.summary }}\n\n총 재시도 횟수\n{{ $prevNode.runIndex}}\n\n",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2280,
+        760
+      ],
+      "id": "0dd401f8-92fc-4105-a36e-44f125635d23",
+      "name": "최종응답"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "83a6934d-4a3d-4415-ac87-42b8f3f48770",
+              "name": "summary",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1420,
+        940
+      ],
+      "id": "961624fb-ff66-4751-bfcf-3e2e66a2fa69",
+      "name": "요약"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "83a6934d-4a3d-4415-ac87-42b8f3f48770",
+              "name": "chatInput",
+              "value": "={{ $json.chatInput }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        880,
+        940
+      ],
+      "id": "f7c17f89-4c75-48b1-ae0a-a7fecb846abf",
+      "name": "최초 프롬프트"
+    },
+    {
+      "parameters": {
+        "content": "![image](https://github.com/user-attachments/assets/de653275-67ee-4373-8fd8-1bc9ce0c3be9)",
+        "height": 460,
+        "width": 1060,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        920,
+        220
+      ],
+      "typeVersion": 1,
+      "id": "e3fe8161-49f1-4a85-91d1-135710537620",
+      "name": "Sticky Note1"
+    }
+  ],
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "최초 프롬프트",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "요약 Agent": {
+      "main": [
+        [
+          {
+            "node": "요약",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Evaluator": {
+      "main": [
+        [
+          {
+            "node": "Pass or Fail?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Optimizer": {
+      "main": [
+        [
+          {
+            "node": "요약",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "gpt-4o": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Evaluator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "gpt-4o-mini": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "요약 Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Optimizer",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pass or Fail?": {
+      "main": [
+        [
+          {
+            "node": "최종응답",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "최종응답",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "프롬프트 업데이트",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "프롬프트 업데이트": {
+      "main": [
+        [
+          {
+            "node": "Optimizer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "최종응답": {
+      "main": [
+        []
+      ]
+    },
+    "요약": {
+      "main": [
+        [
+          {
+            "node": "Evaluator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "최초 프롬프트": {
+      "main": [
+        [
+          {
+            "node": "요약 Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "6a5897f6bf0811d95fc82551662ff519797863d4fb48518f22757bd460e7c947"
+  }
+}
