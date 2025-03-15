@@ -7,10 +7,10 @@
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.1,
       "position": [
-        640,
-        940
+        -460,
+        5080
       ],
-      "id": "720cab84-f1de-4429-887a-7bee3829f336",
+      "id": "2a53ebff-26c5-446f-b691-0a3481e7d0e4",
       "name": "When chat message received",
       "webhookId": "671884c4-a603-482f-9d6f-c6d075e613e4"
     },
@@ -23,11 +23,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -300,
-        900
+        -1280,
+        5040
       ],
       "typeVersion": 1,
-      "id": "109dc96d-4596-489b-98e9-b297b36645f1",
+      "id": "3429889b-496f-4541-96f0-9a391da6e41b",
       "name": "Sticky Note"
     },
     {
@@ -39,25 +39,25 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.7,
       "position": [
-        1060,
-        940
+        -40,
+        5080
       ],
-      "id": "dd5ba5e7-4a12-4d19-86cc-183508f236c5",
+      "id": "0fc2c7f2-d2c5-4956-ba62-e0e969b0f6a4",
       "name": "요약 Agent"
     },
     {
       "parameters": {
         "promptType": "define",
-        "text": "=다음 요약을 평가하십시오:\n\n## 평가기준 (강화된 기준)\n### 1. 핵심 내용 포함 여부  \n   - 원문의 **핵심 개념과 논리적 흐름이 반드시 유지**되어야 합니다.  \n   - 불필요한 세부 사항을 줄일 수 있으나, **세부 정보 요약 과정에서 의미 왜곡이 발생하면 FAIL**입니다.  \n   - 단어 선택이 다소 달라도, **핵심 개념과 논리적 구조가 100% 유지되면 PASS** 가능합니다.  \n   - 원문의 중요 개념 **10% 이상이 빠졌다면 FAIL**입니다. (기존 15% → 10%로 강화)  \n\n### 2. 정확성 & 의미 전달  \n   - 요약이 원문의 의미를 **조금이라도 왜곡하면 FAIL**입니다.  \n   - 숫자, 인명, 날짜 등 **객관적 정보가 단 1개라도 틀리면 FAIL**입니다. (기존보다 엄격)  \n   - 원문의 논리를 유지하되, 표현 방식이 바뀌어도 의미가 정확히 전달되면 PASS 가능합니다.  \n   - 논리적 비약이 있거나 **잘못된 해석이 포함되면 즉시 FAIL**입니다.  \n\n### 3. 간결성 및 가독성  \n   - 문장이 지나치게 길거나 반복적이면 감점 요인입니다.  \n   - 직역체 표현이 많으면 FAIL입니다. (기존 \"지나치면 FAIL\"에서 **엄격하게 FAIL 처리**)  \n   - 일부 단어의 표현 방식이 달라도 자연스럽다면 PASS 가능하지만, **조금이라도 어색하면 FAIL**입니다.  \n   - 문장이 지나치게 어색하여 독해가 어렵다면 **즉시 FAIL**입니다.  \n\n### 4. 문법 및 표현  \n   - 맞춤법, 띄어쓰기 **오류가 3개 이상이면 FAIL**입니다. (기존 5개 → 3개로 강화)  \n   - 사소한 문법 실수라도 의미 전달에 영향을 주면 FAIL입니다.  \n   - 문장이 비문이거나 문맥상 어색한 표현이 발견되면 즉시 FAIL입니다.  \n\n---\n\n## 평가결과 응답예시 (강화된 기준 적용)  \n\n- **모든 기준이 완벽하게 충족되었을 때만 \"평가결과 = PASS\" 출력.  \n- 수정이 필요한 경우, 반드시 구체적인 문제점과 개선 방향을 제시.  \n- 중대한 오류(핵심 개념 누락, 의미 왜곡, 숫자 오류, 논리 비약 등)가 있다면  \n  - 평가결과 = FAIL을 출력하고, 반드시 주요 문제점을 설명.  \n### 최초 프롬프트\n{{ $('최초 프롬프트').first().json.chatInput }}\n### 요약 결과 \n{{ $json.summary }}",
+        "text": "=다음 요약을 평가하십시오:\n\n## 평가기준  \n\n### 1. 핵심 내용 포함 여부  \n   - 원문의 **핵심 개념과 논리적 흐름이 유지되어야 함**  \n   - 불필요한 세부 사항은 줄일 수 있으나, **핵심 개념이 하나라도 누락되면 FAIL**  \n   - 단어 선택이 달라도 **논리 구조와 의미가 100% 유지되지 않으면 FAIL**  \n   - 원문의 중요 개념이 **10% 이상 빠지면 즉시 FAIL**  \n\n### 2. 정확성 및 의미 전달  \n   - 원문의 의미가 **조금이라도 왜곡되면 FAIL**  \n   - 숫자, 인명, 날짜 등 **객관적 정보가 단 1개라도 틀리면 FAIL**  \n   - 원문의 논리를 유지하되, 표현 방식이 다르더라도 의미가 정확하면 PASS  \n   - 논리적 비약이 있거나 잘못된 해석이 포함되면 **즉시 FAIL**  \n\n### 3. 간결성 및 가독성  \n   - 문장이 길거나 불필요한 반복이 있으면 감점  \n   - 직역체 표현이 포함되면 **FAIL**  \n   - 일부 단어 표현이 다르더라도 자연스럽다면 PASS, **조금이라도 어색하면 FAIL**  \n   - 문장이 어색하여 독해가 어렵다면 **즉시 FAIL**  \n\n### 4. 문법 및 표현  \n   - 맞춤법, 띄어쓰기 오류 **3개 이상이면 FAIL**  \n   - 사소한 문법 실수라도 의미 전달에 영향을 주면 **FAIL**  \n   - 문장이 비문이거나 문맥상 어색하면 **즉시 FAIL**  \n\n---\n\n## 평가결과 응답 예시  \n\n- **모든 기준이 완벽히 충족되었을 때만 \"평가결과 = PASS\" 출력**  \n- 수정이 필요한 경우, **구체적인 문제점과 개선 방향을 제시**  \n- 중대한 오류(핵심 개념 누락, 의미 왜곡, 숫자 오류, 논리 비약 등)가 있으면  \n  - **평가결과 = FAIL** 출력 후 주요 문제점 설명   \n### 최초 프롬프트\n\n{{ $('최초 프롬프트').item.json.chatInput }}\n### 요약 결과 \n{{ $json.summary }}",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.7,
       "position": [
-        1660,
-        900
+        560,
+        5040
       ],
-      "id": "53b97a1c-a999-40ad-b705-8ce2cc8f3793",
+      "id": "09afbfa4-638a-4cf3-ac41-41017ef1af85",
       "name": "Evaluator"
     },
     {
@@ -69,10 +69,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.7,
       "position": [
-        2420,
-        1100
+        1320,
+        5240
       ],
-      "id": "4148b591-f1ab-4fd4-96e9-9166f667761b",
+      "id": "e448edd5-5213-4ee9-b94b-abd7459e65ca",
       "name": "Optimizer"
     },
     {
@@ -88,14 +88,14 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        1740,
-        1500
+        640,
+        5640
       ],
-      "id": "138e84c7-4d57-4308-bc73-5ba2f534d7a3",
+      "id": "dd5dfb10-2cd2-4a95-813b-36864976b817",
       "name": "gpt-4o",
       "credentials": {
         "openAiApi": {
-          "id": "noZUZUXLYwqWDZPh",
+          "id": "MkbUNNMdG6OqTkSw",
           "name": "OpenAi account"
         }
       }
@@ -112,14 +112,14 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        1600,
-        1500
+        500,
+        5640
       ],
-      "id": "fa3126a5-d1e1-4025-abc4-7e1faf3668f6",
+      "id": "1ccb5234-d018-4bb1-b19c-4eba70a58820",
       "name": "gpt-4o-mini",
       "credentials": {
         "openAiApi": {
-          "id": "noZUZUXLYwqWDZPh",
+          "id": "MkbUNNMdG6OqTkSw",
           "name": "OpenAi account"
         }
       }
@@ -201,10 +201,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        2080,
-        840
+        980,
+        4980
       ],
-      "id": "1ac26f46-b10c-4590-a604-6cc6c5708463",
+      "id": "c1c6c282-3ce9-421b-9024-114cd4a0fafe",
       "name": "Pass or Fail?"
     },
     {
@@ -224,10 +224,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2260,
-        1100
+        1160,
+        5240
       ],
-      "id": "bc1686c1-c76c-47c7-81c6-7d608f2a5120",
+      "id": "ea082df5-fd4d-4c80-9379-b64c192ce689",
       "name": "프롬프트 업데이트"
     },
     {
@@ -247,10 +247,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2280,
-        760
+        1180,
+        4900
       ],
-      "id": "0dd401f8-92fc-4105-a36e-44f125635d23",
+      "id": "6c6e5882-ee1b-423f-87c6-dcd903b64dcd",
       "name": "최종응답"
     },
     {
@@ -270,10 +270,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1420,
-        940
+        320,
+        5080
       ],
-      "id": "961624fb-ff66-4751-bfcf-3e2e66a2fa69",
+      "id": "363c91d2-5610-49bd-866d-3892f577f42c",
       "name": "요약"
     },
     {
@@ -293,10 +293,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        880,
-        940
+        -220,
+        5080
       ],
-      "id": "f7c17f89-4c75-48b1-ae0a-a7fecb846abf",
+      "id": "95a7f215-d51d-40f7-bc49-c425386f75d8",
       "name": "최초 프롬프트"
     },
     {
@@ -308,12 +308,27 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        920,
-        220
+        -180,
+        4360
       ],
       "typeVersion": 1,
-      "id": "e3fe8161-49f1-4a85-91d1-135710537620",
+      "id": "8c1fc0fc-ac35-4023-9e70-797f6474d306",
       "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "다음 요약을 평가하십시오:\n\n## 평가기준  \n\n### 1. 핵심 내용 포함 여부  \n   - 원문의 **핵심 개념과 논리적 흐름이 유지되어야 함**  \n   - 불필요한 세부 사항은 줄일 수 있으나, **핵심 개념이 하나라도 누락되면 FAIL**  \n   - 단어 선택이 달라도 **논리 구조와 의미가 100% 유지되지 않으면 FAIL**  \n   - 원문의 중요 개념이 **10% 이상 빠지면 즉시 FAIL**  \n\n### 2. 정확성 및 의미 전달  \n   - 원문의 의미가 **조금이라도 왜곡되면 FAIL**  \n   - 숫자, 인명, 날짜 등 **객관적 정보가 단 1개라도 틀리면 FAIL**  \n   - 원문의 논리를 유지하되, 표현 방식이 다르더라도 의미가 정확하면 PASS  \n   - 논리적 비약이 있거나 잘못된 해석이 포함되면 **즉시 FAIL**  \n\n### 3. 간결성 및 가독성  \n   - 문장이 길거나 불필요한 반복이 있으면 감점  \n   - 직역체 표현이 포함되면 **FAIL**  \n   - 일부 단어 표현이 다르더라도 자연스럽다면 PASS, **조금이라도 어색하면 FAIL**  \n   - 문장이 어색하여 독해가 어렵다면 **즉시 FAIL**  \n\n### 4. 문법 및 표현  \n   - 맞춤법, 띄어쓰기 오류 **3개 이상이면 FAIL**  \n   - 사소한 문법 실수라도 의미 전달에 영향을 주면 **FAIL**  \n   - 문장이 비문이거나 문맥상 어색하면 **즉시 FAIL**  \n\n---\n\n## 평가결과 응답 예시  \n\n- **모든 기준이 완벽히 충족되었을 때만 \"평가결과 = PASS\" 출력**  \n- 수정이 필요한 경우, **구체적인 문제점과 개선 방향을 제시**  \n- 중대한 오류(핵심 개념 누락, 의미 왜곡, 숫자 오류, 논리 비약 등)가 있으면  \n  - **평가결과 = FAIL** 출력 후 주요 문제점 설명   \n### 최초 프롬프트\n\n{{ $('최초 프롬프트').item.json.chatInput }}\n### 요약 결과 \n{{ $json.summary }}",
+        "height": 980,
+        "width": 680
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        440,
+        5820
+      ],
+      "typeVersion": 1,
+      "id": "f0bc87da-b88b-4191-a79e-09deb051213c",
+      "name": "Sticky Note2"
     }
   ],
   "connections": {
@@ -424,11 +439,6 @@
         ]
       ]
     },
-    "최종응답": {
-      "main": [
-        []
-      ]
-    },
     "요약": {
       "main": [
         [
@@ -454,6 +464,7 @@
   },
   "pinData": {},
   "meta": {
-    "instanceId": "6a5897f6bf0811d95fc82551662ff519797863d4fb48518f22757bd460e7c947"
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a0de59fb67a306760be20dbd8aba519c63a4cb9ac17688723a86b070cf9ddc17"
   }
 }
