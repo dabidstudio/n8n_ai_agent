@@ -14,7 +14,8 @@
 - 워크플로우 링크 : https://github.com/dabidstudio/n8n_ai_agent/blob/main/1_prompt_chaining.json
 
 
-![image](https://github.com/user-attachments/assets/d94136a4-d89c-4210-87a1-ab3ead6d813f)
+![image](https://github.com/user-attachments/assets/fb02f28c-3938-43f2-a863-0127a26aa3f3)
+
 - 워크플로우 링크 : https://github.com/dabidstudio/n8n_ai_agent/blob/main/2_routing.json
 
 ![image](https://github.com/user-attachments/assets/47347187-0835-4608-ba55-182cc3f7418a)
