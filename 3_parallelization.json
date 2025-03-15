@@ -7,10 +7,10 @@
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.1,
       "position": [
-        -220,
-        80
+        -1600,
+        360
       ],
-      "id": "a459de86-3e6e-4405-bc6f-191bccb84d89",
+      "id": "24fdcd92-ce2d-4ad5-ac8f-b9821a866a2d",
       "name": "When chat message received",
       "webhookId": "6fa6c011-d98f-4dbf-85c3-2bc529444c0e"
     },
@@ -27,14 +27,14 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        240,
-        -160
+        -1140,
+        120
       ],
-      "id": "808c9652-d146-416f-8cf1-acedd05b6cf2",
+      "id": "26ef191b-ae81-44a3-a836-29fe4b2a27e8",
       "name": "OpenAI Chat Model",
       "credentials": {
         "openAiApi": {
-          "id": "noZUZUXLYwqWDZPh",
+          "id": "MkbUNNMdG6OqTkSw",
           "name": "OpenAi account"
         }
       }
@@ -51,14 +51,14 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        220,
-        200
+        -1160,
+        480
       ],
-      "id": "fd9fab0c-292c-4beb-82ce-5168f90b4987",
+      "id": "d68a5b2c-4dab-41d0-a556-e80a9c5e2799",
       "name": "OpenAI Chat Model2",
       "credentials": {
         "openAiApi": {
-          "id": "noZUZUXLYwqWDZPh",
+          "id": "MkbUNNMdG6OqTkSw",
           "name": "OpenAi account"
         }
       }
@@ -76,14 +76,14 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        240,
-        560
+        -1140,
+        840
       ],
-      "id": "8368764a-84e3-4286-8d09-c9da888afd7f",
+      "id": "d2bfb1b4-98da-4c73-8395-e94b2588b005",
       "name": "OpenAI Chat Model3",
       "credentials": {
         "openAiApi": {
-          "id": "noZUZUXLYwqWDZPh",
+          "id": "MkbUNNMdG6OqTkSw",
           "name": "OpenAi account"
         }
       }
@@ -95,10 +95,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.7,
       "position": [
-        280,
-        -340
+        -1100,
+        -60
       ],
-      "id": "5f7df77a-e8e3-4019-8e1a-1a07e1d129be",
+      "id": "a5b53a72-ced0-4a9e-a4f0-ddfedcba9d71",
       "name": "gpt-4o"
     },
     {
@@ -108,10 +108,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.7,
       "position": [
-        260,
-        60
+        -1120,
+        340
       ],
-      "id": "8a93df58-8539-4f72-a215-f256afffce41",
+      "id": "af3b1b1e-16a7-4ff0-8b1b-c13d58a91974",
       "name": "gpt-4o-mini"
     },
     {
@@ -121,10 +121,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.7,
       "position": [
-        260,
-        380
+        -1120,
+        660
       ],
-      "id": "707961d9-a5e6-4052-9b94-da10047a493a",
+      "id": "7dfe75af-673d-4551-81e7-5b29c62b4a4d",
       "name": "o3-mini"
     },
     {
@@ -136,10 +136,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.7,
       "position": [
-        1280,
-        120
+        -100,
+        400
       ],
-      "id": "497f6757-afdc-42fd-bf37-93a7da18d6f9",
+      "id": "c3b3ca03-0f2f-41c9-b00d-9817d3db46b1",
       "name": "AI Agent"
     },
     {
@@ -154,14 +154,14 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        1220,
-        300
+        -100,
+        560
       ],
-      "id": "437dab83-cfc6-4f03-827a-6f24f6b2be6c",
+      "id": "eb55f67d-3c1d-4485-a5a9-7a5374a8354f",
       "name": "OpenAI Chat Model1",
       "credentials": {
         "openAiApi": {
-          "id": "noZUZUXLYwqWDZPh",
+          "id": "MkbUNNMdG6OqTkSw",
           "name": "OpenAi account"
         }
       }
@@ -173,26 +173,26 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3,
       "position": [
-        820,
-        120
+        -560,
+        400
       ],
-      "id": "5fbf62cc-dd21-407a-9ebf-88285d0dd902",
+      "id": "93e88893-c0d0-4e49-a7a9-9b4aed4cca5e",
       "name": "Merge"
     },
     {
       "parameters": {
-        "content": "![image](https://github.com/user-attachments/assets/47347187-0835-4608-ba55-182cc3f7418a)\n\n\n## 최초 질문\n아래 문장을 자연스러운 한국어로 번역해줘\nDo what you can, with what you have, where you are.\\\" — Theodore Roosevelt\n\n## Aggregator Prompt\n\n다음은 여러 개의 AI 모델이 사용자 질문에 대해 생성한 응답입니다.\n당신의 역할은 이 응답들을 모두 종합하여 최종 답변을 제공하는 것입니다.\n일부 응답이 부정확하거나 편향될 수 있으므로, 신뢰성과 정확성을 갖춘 응답을 생성하는 것이 중요합니다.\n\n사용자 질문:{{ $('When chat message received').item.json.chatInput }}\n\n모델 응답들:\n\n응답 1\n{{ $json.output[0] }}\n\n응답 2\n{{ $json.output[1] }}\n\n\n응답 3\n{{ $json.output[2] }}\n\n",
-        "height": 1100,
-        "width": 760,
+        "content": "![image](https://github.com/user-attachments/assets/47347187-0835-4608-ba55-182cc3f7418a)\n\n",
+        "height": 580,
+        "width": 960,
         "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -1220,
-        -300
+        -2660,
+        120
       ],
       "typeVersion": 1,
-      "id": "962bf669-6cae-4831-84c3-8a5fd2e06824",
+      "id": "78222f7d-790c-447f-96c2-f05344782c07",
       "name": "Sticky Note"
     },
     {
@@ -209,11 +209,26 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        1060,
-        120
+        -320,
+        400
       ],
-      "id": "51bcff93-4fe8-404f-9e21-ebbff96fb97d",
+      "id": "e5af8990-e092-48cd-81e9-0f0e5d5af17f",
       "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "content": "아래 문장을 자연스러운 한국어로 번역해줘\nDo what you can, with what you have, where you are.\\\" — Theodore Roosevelt",
+        "height": 100,
+        "width": 360
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1680,
+        540
+      ],
+      "typeVersion": 1,
+      "id": "019e2769-e8fb-46bc-8c69-bfade8c3349d",
+      "name": "Sticky Note1"
     }
   ],
   "connections": {
@@ -341,6 +356,6 @@
   "pinData": {},
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "6a5897f6bf0811d95fc82551662ff519797863d4fb48518f22757bd460e7c947"
+    "instanceId": "a0de59fb67a306760be20dbd8aba519c63a4cb9ac17688723a86b070cf9ddc17"
   }
 }
