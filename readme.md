@@ -11,15 +11,21 @@
 
 
 ![image](https://github.com/user-attachments/assets/3be6ca15-216b-4250-bc14-b764ab3ae741)
+- 워크플로우 링크 : https://github.com/dabidstudio/n8n_ai_agent/blob/main/1_prompt_chaining.json
 
 
 ![image](https://github.com/user-attachments/assets/d94136a4-d89c-4210-87a1-ab3ead6d813f)
+- 워크플로우 링크 : https://github.com/dabidstudio/n8n_ai_agent/blob/main/2_routing.json
 
 ![image](https://github.com/user-attachments/assets/47347187-0835-4608-ba55-182cc3f7418a)
+- 워크플로우 링크 : https://github.com/dabidstudio/n8n_ai_agent/blob/main/3_parallelization.json
 
 ![image](https://github.com/user-attachments/assets/dcbaf042-7669-48a6-ac50-d22b34be8bd3)
-
+- 워크플로우 링크 : https://github.com/dabidstudio/n8n_ai_agent/blob/main/4_orchestrator_workers.json
+- 
 ![image](https://github.com/user-attachments/assets/de653275-67ee-4373-8fd8-1bc9ce0c3be9)
+- 워크플로우 링크 : https://github.com/dabidstudio/n8n_ai_agent/blob/main/5_evaluator_optimizer.json
+
 
 
 ## 참고 자료
