@@ -28,6 +28,9 @@
 - 워크플로우 링크 : https://github.com/dabidstudio/n8n_ai_agent/blob/main/5_evaluator_optimizer.json
 
 
+※ 5가지 유형을 모두 텔레그램으로 연계한 워크플로우  : https://github.com/dabidstudio/n8n_ai_agent/blob/main/telegram_integrations(demo).json
+
+
 
 ## 참고 자료
 - [n8n 공식 문서](https://docs.n8n.io/)
