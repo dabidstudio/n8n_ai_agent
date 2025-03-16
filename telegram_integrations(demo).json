@@ -1,0 +1,2048 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1280,
+        5500
+      ],
+      "id": "8b3e652a-ff35-429f-a3ce-1ae6be37166c",
+      "name": "OpenAI Chat Model3",
+      "credentials": {
+        "openAiApi": {
+          "id": "MkbUNNMdG6OqTkSw",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=사용자의 여행 취향을 바탕으로 적합한 여행지 3곳을 추천하세요. \n- 먼저 사용자가 입력한 희망사항을 요약해줘\n- 사용자가 입력한 희망사항을 반영해서 왜 적합한 여행지인지 설명해주세요\n- 각 여행지의 기후, 주요 관광지, 활동 등을 설명하세요.\n사용자 입력 : {{ $json.message.text }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        1280,
+        5300
+      ],
+      "id": "0431475f-23be-4237-83da-f19c3aee384c",
+      "name": "1단계 Agent1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=다음 여행지 3곳 중 하나를 선택하세요. 선택한 여행지 알려주세요. 그리고 선택한 이유를 설명해주세요.\n- 해당 여행지에서 즐길 수 있는 주요 활동 5가지를 나열하세요. \n- 활동은 자연 탐방, 역사 탐방, 음식 체험 등 다양한 범주에서 포함되도록 하세요.\n사용자 입력 : \n {{ $json.output }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        1640,
+        5300
+      ],
+      "id": "62370912-55c0-4524-83b6-a53c338f32fb",
+      "name": "2단계 Agent1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1640,
+        5520
+      ],
+      "id": "3f31b3bf-b877-46b3-b513-0de8398f9882",
+      "name": "OpenAI Chat Model4",
+      "credentials": {
+        "openAiApi": {
+          "id": "MkbUNNMdG6OqTkSw",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1980,
+        5520
+      ],
+      "id": "786f8615-7108-46b4-8fb6-137f30305e00",
+      "name": "OpenAI Chat Model5",
+      "credentials": {
+        "openAiApi": {
+          "id": "MkbUNNMdG6OqTkSw",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=사용자가 하루 동안 이 여행지에서 시간을 보낼 계획입니다. \n- 오전, 오후, 저녁으로 나누어 일정을 짜고, 각 시간대에 어떤 활동을 하면 좋을지 설명하세요.\n최초 사용자의 질문 : \n{{ $('Telegram Trigger').item.json.message.text  }}\n\n\n활용할 내용 : \n {{ $json.output }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        1980,
+        5300
+      ],
+      "id": "53c6d793-50bb-4848-a001-18d3cd5f6828",
+      "name": "3단계 Agent1"
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        1040,
+        5420
+      ],
+      "id": "e19181db-bfd6-42b0-8258-f467b68cda50",
+      "name": "Telegram Trigger",
+      "webhookId": "7e6f2516-209c-4414-b4f8-95b6436e2296",
+      "credentials": {
+        "telegramApi": {
+          "id": "CK6K32bzvCmPwIk5",
+          "name": "aiagent_dabid_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.from.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2340,
+        5420
+      ],
+      "id": "1c81f54d-b2a0-483a-92f3-8035106731d5",
+      "name": "Telegram",
+      "webhookId": "92c389f6-d1ae-4a46-bad7-ec116e6cc73e",
+      "credentials": {
+        "telegramApi": {
+          "id": "CK6K32bzvCmPwIk5",
+          "name": "aiagent_dabid_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "![image](https://github.com/user-attachments/assets/3be6ca15-216b-4250-bc14-b764ab3ae741)\n",
+        "height": 340,
+        "width": 760
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1340,
+        4940
+      ],
+      "typeVersion": 1,
+      "id": "6328af48-f92b-4377-893f-5c9080b1fed7",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=    사용자의 프롬프트/질문:\n{{ $json.message.text }}\n    각 모델은 서로 다른 기능을 가지고 있습니다. 사용자의 질문에 가장 적합한 모델을 선택하세요:\n    - gpt-4o: 일반적인 작업에 가장 적합한 모델 (기본값)\n    - o3-mini: 코딩 및 복잡한 문제 해결에 적합한 모델\n    - gpt-4o-mini: 1+1 등의 간단한 사칙연산 등의 작업에 적합한 모델 \n    \n    모델명만 단답형으로 응답하세요",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        1420,
+        6360
+      ],
+      "id": "9264db46-5a8f-4351-aef2-ca033dea7690",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.output }}",
+                    "rightValue": "gpt-4o",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "a005300b-11d0-41c7-afcc-7e2c85a014d9"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "1a5a4d59-037d-4ba0-8b9b-cb7c8aa2158c",
+                    "leftValue": "={{ $json.output }}",
+                    "rightValue": "o3-mini",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "c43e7185-619c-4c87-a616-d3f8aae3cb78",
+                    "leftValue": "={{ $json.output }}",
+                    "rightValue": "gpt-4o-mini",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1740,
+        6360
+      ],
+      "id": "3e6a8ab6-b8a0-48c6-a34e-bb2d0a071447",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Telegram Trigger1').item.json.message.text }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        2000,
+        6200
+      ],
+      "id": "ac23885f-20fa-4f1f-9db4-c951c3d99cef",
+      "name": "gpt-4o agent"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Telegram Trigger1').item.json.message.text }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        2000,
+        6600
+      ],
+      "id": "fa48f79e-eac9-4395-848b-85acb0ac4071",
+      "name": "gpt-4o-mini-agent"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Telegram Trigger1').item.json.message.text }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        2000,
+        6400
+      ],
+      "id": "156a67d7-2a79-4f2f-8b74-ac0c6283118e",
+      "name": "o3-mini-agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "o3-mini",
+          "mode": "list",
+          "cachedResultName": "o3-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1920,
+        6420
+      ],
+      "id": "aa16822d-c6d8-4a43-8138-c78f3b0f7c4c",
+      "name": "o3-mini",
+      "credentials": {
+        "openAiApi": {
+          "id": "MkbUNNMdG6OqTkSw",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1920,
+        6620
+      ],
+      "id": "133b0089-789b-4598-836d-16c72379c102",
+      "name": "gpt-4o-mini",
+      "credentials": {
+        "openAiApi": {
+          "id": "MkbUNNMdG6OqTkSw",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1920,
+        6220
+      ],
+      "id": "970fa72b-83a3-4b0a-815c-bb34157f8a42",
+      "name": "gpt-4o",
+      "credentials": {
+        "openAiApi": {
+          "id": "MkbUNNMdG6OqTkSw",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1420,
+        6540
+      ],
+      "id": "83fafa75-6de2-4def-8642-5c58f15dadb2",
+      "name": "gpt-4o-mini1",
+      "credentials": {
+        "openAiApi": {
+          "id": "MkbUNNMdG6OqTkSw",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "![image](https://github.com/user-attachments/assets/fb02f28c-3938-43f2-a863-0127a26aa3f3)",
+        "height": 400,
+        "width": 760
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1240,
+        5940
+      ],
+      "typeVersion": 1,
+      "id": "00420187-7ba0-4f21-b147-472dfa3daaae",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        1240,
+        6360
+      ],
+      "id": "d0f777ef-004d-4b8c-acaa-17f06f7471ff",
+      "name": "Telegram Trigger1",
+      "webhookId": "7e6f2516-209c-4414-b4f8-95b6436e2296",
+      "credentials": {
+        "telegramApi": {
+          "id": "CK6K32bzvCmPwIk5",
+          "name": "aiagent_dabid_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger1').item.json.message.from.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2280,
+        6200
+      ],
+      "id": "94d96ab1-f562-483e-8b77-da558a3bf76d",
+      "name": "Telegram1",
+      "webhookId": "92c389f6-d1ae-4a46-bad7-ec116e6cc73e",
+      "credentials": {
+        "telegramApi": {
+          "id": "CK6K32bzvCmPwIk5",
+          "name": "aiagent_dabid_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger1').item.json.message.from.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2280,
+        6400
+      ],
+      "id": "75a8af17-68d6-4051-903c-e7efbd56f4fc",
+      "name": "Telegram2",
+      "webhookId": "92c389f6-d1ae-4a46-bad7-ec116e6cc73e",
+      "credentials": {
+        "telegramApi": {
+          "id": "CK6K32bzvCmPwIk5",
+          "name": "aiagent_dabid_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger1').item.json.message.from.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2280,
+        6600
+      ],
+      "id": "2dfa0702-de8e-4f11-b853-9333ef587f2e",
+      "name": "Telegram3",
+      "webhookId": "92c389f6-d1ae-4a46-bad7-ec116e6cc73e",
+      "credentials": {
+        "telegramApi": {
+          "id": "CK6K32bzvCmPwIk5",
+          "name": "aiagent_dabid_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1220,
+        7580
+      ],
+      "id": "e660b397-0dc5-48a7-b328-dc3d1ba3b404",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "MkbUNNMdG6OqTkSw",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1220,
+        7760
+      ],
+      "id": "b9c9991f-eb5b-4e2e-afb1-9b30ebb6ad43",
+      "name": "OpenAI Chat Model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "MkbUNNMdG6OqTkSw",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1860,
+        7880
+      ],
+      "id": "12a77ea2-01be-4dea-af3a-d3f5c6c68c4a",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "MkbUNNMdG6OqTkSw",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        1640,
+        7740
+      ],
+      "id": "82187c26-4145-4662-8907-3ea6d516f972",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "output"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1760,
+        7740
+      ],
+      "id": "2d579b4b-69c8-4a4a-be4d-96cd5b2ffcc2",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "o3-mini",
+          "mode": "list",
+          "cachedResultName": "o3-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1240,
+        7960
+      ],
+      "id": "0096d9c0-8a0c-492e-bf4e-269fe71e8a20",
+      "name": "OpenAI Chat Model6",
+      "credentials": {
+        "openAiApi": {
+          "id": "MkbUNNMdG6OqTkSw",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message.text }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        1340,
+        7560
+      ],
+      "id": "009b007b-360b-435c-8bbc-08acdab29d7e",
+      "name": "gpt-4o1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message.text }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        1340,
+        7720
+      ],
+      "id": "dcefe86f-f206-49f2-8cdc-a0a6801811a4",
+      "name": "gpt-4o-mini2"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message.text }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        1340,
+        7920
+      ],
+      "id": "6c760d83-3fcc-4031-8481-63049cd11187",
+      "name": "o3-mini1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=다음은 여러 개의 AI 모델이 사용자 질문에 대해 생성한 응답입니다.\n당신의 역할은 이 응답들을 모두 종합하여 최종 답변을 제공하는 것입니다.\n일부 응답이 부정확하거나 편향될 수 있으므로, 신뢰성과 정확성을 갖춘 응답을 생성하는 것이 중요합니다.\n\n## 사용자 질문:{{ $('Telegram Trigger2').item.json.chatInput }}\n\n## 모델 응답들:\n\n응답 1\n{{ $json.output[0] }}\n\n응답 2\n{{ $json.output[1] }}\n\n\n응답 3\n{{ $json.output[2] }}\n\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        1880,
+        7740
+      ],
+      "id": "eade5667-47f0-4259-9121-9fd817af76c5",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "content": "![image](https://github.com/user-attachments/assets/47347187-0835-4608-ba55-182cc3f7418a)\n\n",
+        "height": 440,
+        "width": 760,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1020,
+        7100
+      ],
+      "typeVersion": 1,
+      "id": "643014dc-96ec-4ab9-9960-641cdc32e71b",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        960,
+        7760
+      ],
+      "id": "9a2ad389-747a-448e-afce-2b455d5d582c",
+      "name": "Telegram Trigger2",
+      "webhookId": "7e6f2516-209c-4414-b4f8-95b6436e2296",
+      "credentials": {
+        "telegramApi": {
+          "id": "CK6K32bzvCmPwIk5",
+          "name": "aiagent_dabid_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger2').item.json.message.from.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2200,
+        7740
+      ],
+      "id": "42d05b5c-9cd5-4397-91ee-07a7455f8a2f",
+      "name": "Telegram4",
+      "webhookId": "92c389f6-d1ae-4a46-bad7-ec116e6cc73e",
+      "credentials": {
+        "telegramApi": {
+          "id": "CK6K32bzvCmPwIk5",
+          "name": "aiagent_dabid_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{ JSON.parse($json[\"output\"]) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1160,
+        10040
+      ],
+      "id": "feb73eb2-6ba8-4709-a89a-3d08d031cdf3",
+      "name": "json인식"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "subtasks",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1300,
+        10040
+      ],
+      "id": "4035bb86-68f6-449c-9ff2-79e72f6e6337",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=    다음 사용자 질문에서 파생된 하위 질문을 다루는 작업을 맡았습니다:\n    원래 질문:  {{ $('Telegram Trigger3').item.json.message.text }}\n    하위 질문: {{ $json.sub_question }}\n\n    지침: {{ $json.description }}\n\n    하위 질문을 철저히 다루는 포괄적이고 상세한 응답을 해주세요",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        1500,
+        10080
+      ],
+      "id": "65498682-3448-4d1a-87ba-49777e8032c2",
+      "name": "Subagent"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=아래는 사용자의 원래 질문에 대해서 하위 질문을 나누고 응답한 결과입니다.\n아래 질문 및 응답내용을 포함한 최종 응답을 제공해주세요.\n## 요청사항\n- 하위질문 응답내용이 최대한 포괄적이고 상세하게 포함되어야 합니다\n### 사용자의 원래 질문:\n{{ $('Telegram Trigger3').item.json.message.text }}\n### 하위 질문 및 응답:\n{{ JSON.stringify($json.data, null, 2) }}\n\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        2140,
+        10020
+      ],
+      "id": "49af01ab-0d34-4b54-9a96-1fad06213765",
+      "name": "Aggregator"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=다음 사용자 질문을 분석하고, 이를 3개의 관련된 하위 질문으로 분해하십시오:\n다음 형식으로 응답을 제공하십시오:\n{\n    \"analysis\": \"사용자 질문에 대한 이해를 상세히 설명하고, 작성한 하위 질문들의 근거를 설명하십시오.\",\n    \"subtasks\": [\n        {\n            \"description\": \"이 하위 질문의 초점과 의도를 설명하십시오.\",\n            \"sub_question\": \"질문 1\"\n        },\n        {\n            \"description\": \"이 하위 질문의 초점과 의도를 설명하십시오.\",\n            \"sub_question\": \"질문 2\"\n        }\n        // 필요에 따라 추가 하위 질문 포함\n    ]\n}\n최대 3개의 하위 질문을 생성하세요\n사용자 질문: {{ $json.message.text }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        840,
+        10020
+      ],
+      "id": "62347137-2b91-4837-8659-9e35b5f4b70a",
+      "name": "AI Agent2"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        840,
+        10160
+      ],
+      "id": "3fe7d18a-c965-4f18-a994-ef1cf5452177",
+      "name": "OpenAI Chat Model7",
+      "credentials": {
+        "openAiApi": {
+          "id": "MkbUNNMdG6OqTkSw",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1460,
+        10220
+      ],
+      "id": "696eb072-720e-48c1-9b60-b1d7db3b5fc3",
+      "name": "OpenAI Chat Model8",
+      "credentials": {
+        "openAiApi": {
+          "id": "MkbUNNMdG6OqTkSw",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        1840,
+        10040
+      ],
+      "id": "f5b1655b-97a2-46fe-b55f-27bb48b6444c",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1980,
+        10040
+      ],
+      "id": "de50ab51-92be-4778-bdaa-c8307ce96251",
+      "name": "Aggregate1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2100,
+        10160
+      ],
+      "id": "41f42599-cc2e-4b45-b91c-4f8208c2141b",
+      "name": "OpenAI Chat Model9",
+      "credentials": {
+        "openAiApi": {
+          "id": "MkbUNNMdG6OqTkSw",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "![image](https://github.com/user-attachments/assets/dcbaf042-7669-48a6-ac50-d22b34be8bd3)",
+        "height": 520,
+        "width": 1000
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1000,
+        9300
+      ],
+      "typeVersion": 1,
+      "id": "5321e16c-0ac7-4b5e-ac64-9d54be610056",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "content": "# Orchestrator\n - 최초 질문과 관련된 하위 질문을 생성\n",
+        "height": 400,
+        "width": 380,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        760,
+        9900
+      ],
+      "typeVersion": 1,
+      "id": "04c9cb99-848b-4f6c-bf82-531398f834e8",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "content": "# Aggregator\n - Subagents들이 응답한 결과 전체를 취합해서 최종 응답 도출\n",
+        "height": 420,
+        "width": 420,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2100,
+        9880
+      ],
+      "typeVersion": 1,
+      "id": "33421f4f-90fc-4f76-a983-10eee18462f7",
+      "name": "Sticky Note10"
+    },
+    {
+      "parameters": {
+        "content": "# Subagents\n - 각 하위질문에 대해서 하나씩 LLM 호출 진행\n",
+        "height": 420,
+        "width": 400,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1420,
+        9880
+      ],
+      "typeVersion": 1,
+      "id": "9ebf5f26-ad10-4ffe-ae74-b584f7aa61c4",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        640,
+        10020
+      ],
+      "id": "5b5cfbae-54a1-445e-bda6-666ffd5a4a91",
+      "name": "Telegram Trigger3",
+      "webhookId": "7e6f2516-209c-4414-b4f8-95b6436e2296",
+      "credentials": {
+        "telegramApi": {
+          "id": "CK6K32bzvCmPwIk5",
+          "name": "aiagent_dabid_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger3').item.json.message.from.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2480,
+        10020
+      ],
+      "id": "ed6b4f72-8dbc-4b9c-bef2-41f3f348669a",
+      "name": "Telegram5",
+      "webhookId": "92c389f6-d1ae-4a46-bad7-ec116e6cc73e",
+      "credentials": {
+        "telegramApi": {
+          "id": "CK6K32bzvCmPwIk5",
+          "name": "aiagent_dabid_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "![image](https://github.com/user-attachments/assets/de653275-67ee-4373-8fd8-1bc9ce0c3be9)",
+        "height": 600,
+        "width": 1280,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        940,
+        11040
+      ],
+      "typeVersion": 1,
+      "id": "d3258206-0688-476f-8972-25e6d884ac0f",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.chatInput }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        1160,
+        11740
+      ],
+      "id": "17939128-cf4d-4ab3-a5a7-e5d641512753",
+      "name": "요약 Agent"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=다음 요약을 평가하십시오:\n\n## 평가기준  \n\n### 1. 핵심 내용 포함 여부  \n   - 원문의 **핵심 개념과 논리적 흐름이 유지되어야 함**  \n   - 불필요한 세부 사항은 줄일 수 있으나, **핵심 개념이 하나라도 누락되면 FAIL**  \n   - 단어 선택이 달라도 **논리 구조와 의미가 100% 유지되지 않으면 FAIL**  \n   - 원문의 중요 개념이 **10% 이상 빠지면 즉시 FAIL**  \n\n### 2. 정확성 및 의미 전달  \n   - 원문의 의미가 **조금이라도 왜곡되면 FAIL**  \n   - 숫자, 인명, 날짜 등 **객관적 정보가 단 1개라도 틀리면 FAIL**  \n   - 원문의 논리를 유지하되, 표현 방식이 다르더라도 의미가 정확하면 PASS  \n   - 논리적 비약이 있거나 잘못된 해석이 포함되면 **즉시 FAIL**  \n\n### 3. 간결성 및 가독성  \n   - 문장이 길거나 불필요한 반복이 있으면 감점  \n   - 직역체 표현이 포함되면 **FAIL**  \n   - 일부 단어 표현이 다르더라도 자연스럽다면 PASS, **조금이라도 어색하면 FAIL**  \n   - 문장이 어색하여 독해가 어렵다면 **즉시 FAIL**  \n\n### 4. 문법 및 표현  \n   - 맞춤법, 띄어쓰기 오류 **3개 이상이면 FAIL**  \n   - 사소한 문법 실수라도 의미 전달에 영향을 주면 **FAIL**  \n   - 문장이 비문이거나 문맥상 어색하면 **즉시 FAIL**  \n\n---\n\n## 평가결과 응답 예시  \n\n- **모든 기준이 완벽히 충족되었을 때만 \"평가결과 = PASS\" 출력**  \n- 수정이 필요한 경우, **구체적인 문제점과 개선 방향을 제시**  \n- 중대한 오류(핵심 개념 누락, 의미 왜곡, 숫자 오류, 논리 비약 등)가 있으면  \n  - **평가결과 = FAIL** 출력 후 주요 문제점 설명   \n### 최초 프롬프트\n\n{{ $('최초 프롬프트').item.json.chatInput }}\n### 요약 결과 \n{{ $json.summary }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        1620,
+        11740
+      ],
+      "id": "1a52fbe4-d40c-4518-871f-219ae39ab6b0",
+      "name": "Evaluator"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.updatedPrompt }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        2360,
+        11880
+      ],
+      "id": "504aa57c-262f-488b-8018-8b09fdb2419d",
+      "name": "Optimizer"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "0150f895-f3f5-4d76-9038-a7e817d95e45",
+                    "leftValue": "={{ $runIndex }}",
+                    "rightValue": 2,
+                    "operator": {
+                      "type": "number",
+                      "operation": "gt"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.output}}\n",
+                    "rightValue": "=결과 = PASS",
+                    "operator": {
+                      "type": "string",
+                      "operation": "regex"
+                    },
+                    "id": "b6d3e2ed-c27e-4aee-90ea-2a2006a298df"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "cc10d27d-da19-4823-a07a-8fa64e33a291",
+                    "leftValue": "{{ $json.output}}",
+                    "rightValue": "결과 = PASS",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notRegex"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1960,
+        11740
+      ],
+      "id": "cfe965aa-98ad-4ffa-8c99-9fb7d8a3a842",
+      "name": "Pass or Fail?"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "83a6934d-4a3d-4415-ac87-42b8f3f48770",
+              "name": "updatedPrompt",
+              "value": "={{ $('최초 프롬프트').first().json.chatInput }}\n\n이전 요약 및 평가 결과\n(요약결과)\n{{ $('요약').first().json.summary }}\n\n(평가결과)\n{{ $('Evaluator').first().json.output }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2200,
+        11880
+      ],
+      "id": "9431065e-9146-47c1-acb4-a5c0c9fafbc7",
+      "name": "프롬프트 업데이트"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "83a6934d-4a3d-4415-ac87-42b8f3f48770",
+              "name": "output",
+              "value": "={{ $('요약').first().json.summary }}\n\n총 재시도 횟수\n{{ $prevNode.runIndex}}\n\n",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2200,
+        11660
+      ],
+      "id": "c2844ca8-6a2b-46aa-a9f8-bb070fe5f024",
+      "name": "최종응답"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "83a6934d-4a3d-4415-ac87-42b8f3f48770",
+              "name": "summary",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1460,
+        11740
+      ],
+      "id": "1496a947-44bb-4c94-9de4-b9b33d0f6fce",
+      "name": "요약"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d3bdffa5-cfa1-49ae-af6e-07aa99ff71fa",
+              "name": "chatInput",
+              "value": "={{ $json.message.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        840,
+        11740
+      ],
+      "id": "aec28c84-0a55-4df2-9029-bce62de08a2a",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "83a6934d-4a3d-4415-ac87-42b8f3f48770",
+              "name": "chatInput",
+              "value": "={{ $json.chatInput }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        980,
+        11740
+      ],
+      "id": "e316eba0-a832-4b0c-8111-cdf0d619f717",
+      "name": "최초 프롬프트"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1780,
+        12280
+      ],
+      "id": "3b7e5c0f-f3b9-4b04-a72e-35092b04c0d7",
+      "name": "gpt-4o2",
+      "credentials": {
+        "openAiApi": {
+          "id": "MkbUNNMdG6OqTkSw",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1600,
+        12300
+      ],
+      "id": "53ff93ad-bb77-4128-b10f-23b3667f88ff",
+      "name": "gpt-4o-mini3",
+      "credentials": {
+        "openAiApi": {
+          "id": "MkbUNNMdG6OqTkSw",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        700,
+        11740
+      ],
+      "id": "7f4e5a70-9f5f-4f4d-b2f5-1be9ffd10b51",
+      "name": "Telegram Trigger4",
+      "webhookId": "1f20a3f2-5a18-40c7-a068-447b703e7e56",
+      "credentials": {
+        "telegramApi": {
+          "id": "CK6K32bzvCmPwIk5",
+          "name": "aiagent_dabid_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger4').item.json.message.from.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2360,
+        11660
+      ],
+      "id": "a965079c-c419-4aba-8cdd-207bbba4d36d",
+      "name": "Telegram6",
+      "webhookId": "5bc0b2ee-901b-4f13-86e8-db5b15a29694",
+      "credentials": {
+        "telegramApi": {
+          "id": "CK6K32bzvCmPwIk5",
+          "name": "aiagent_dabid_bot"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "OpenAI Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "1단계 Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "1단계 Agent1": {
+      "main": [
+        [
+          {
+            "node": "2단계 Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2단계 Agent1": {
+      "main": [
+        [
+          {
+            "node": "3단계 Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "2단계 Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model5": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "3단계 Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3단계 Agent1": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "1단계 Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "gpt-4o agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "o3-mini-agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "gpt-4o-mini-agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "gpt-4o agent": {
+      "main": [
+        [
+          {
+            "node": "Telegram1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "gpt-4o-mini-agent": {
+      "main": [
+        [
+          {
+            "node": "Telegram3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "o3-mini-agent": {
+      "main": [
+        [
+          {
+            "node": "Telegram2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "o3-mini": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "o3-mini-agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "gpt-4o-mini": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "gpt-4o-mini-agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "gpt-4o": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "gpt-4o agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "gpt-4o-mini1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "gpt-4o1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "gpt-4o-mini2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model6": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "o3-mini1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "gpt-4o1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "gpt-4o-mini2": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "o3-mini1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Telegram4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger2": {
+      "main": [
+        [
+          {
+            "node": "gpt-4o1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "gpt-4o-mini2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "o3-mini1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "json인식": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Subagent",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Subagent": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Aggregator": {
+      "main": [
+        [
+          {
+            "node": "Telegram5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent2": {
+      "main": [
+        [
+          {
+            "node": "json인식",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model7": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model8": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Subagent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Aggregate1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate1": {
+      "main": [
+        [
+          {
+            "node": "Aggregator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model9": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Aggregator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger3": {
+      "main": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "요약 Agent": {
+      "main": [
+        [
+          {
+            "node": "요약",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Evaluator": {
+      "main": [
+        [
+          {
+            "node": "Pass or Fail?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Optimizer": {
+      "main": [
+        [
+          {
+            "node": "요약",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pass or Fail?": {
+      "main": [
+        [
+          {
+            "node": "최종응답",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "최종응답",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "프롬프트 업데이트",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "프롬프트 업데이트": {
+      "main": [
+        [
+          {
+            "node": "Optimizer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "최종응답": {
+      "main": [
+        [
+          {
+            "node": "Telegram6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "요약": {
+      "main": [
+        [
+          {
+            "node": "Evaluator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "최초 프롬프트",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "최초 프롬프트": {
+      "main": [
+        [
+          {
+            "node": "요약 Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "gpt-4o2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Evaluator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "gpt-4o-mini3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "요약 Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Optimizer",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger4": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {
+    "Split Out": [
+      {
+        "description": "이 하위 질문은 생성형 AI 기술의 발전 방향과 그에 따른 가능성에 대해 탐구하는 데 중점을 두고 있습니다.",
+        "sub_question": "생성형 AI 기술은 앞으로 어떤 방향으로 발전할 것으로 보이며, 이로 인해 어떤 새로운 가능성이 열릴까요?"
+      },
+      {
+        "description": "이 하위 질문은 생성형 AI가 사회와 인간 생활에 미치는 영향에 대해서 다루고 있으며, 기술의 수용과 그로 인한 변화에 초점을 맞추고 있습니다.",
+        "sub_question": "생성형 AI의 발전이 사회와 인간의 일상 생활에 어떤 다양한 영향을 미칠 것으로 예상되나요?"
+      },
+      {
+        "description": "이 하위 질문은 생성형 AI의 윤리적 문제와 도전 과제를 다루고 있으며, 기술 사용의 책임성을 탐구합니다.",
+        "sub_question": "생성형 AI를 활용하는 데에 따른 윤리적 문제는 무엇이며, 이를 해결하기 위한 방안은 어떤 것이 있을까요?"
+      }
+    ]
+  },
+  "meta": {
+    "instanceId": "a0de59fb67a306760be20dbd8aba519c63a4cb9ac17688723a86b070cf9ddc17"
+  }
+}
