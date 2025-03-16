@@ -9,10 +9,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.7,
       "position": [
-        40,
-        4600
+        -140,
+        920
       ],
-      "id": "f38d2ea0-9611-418b-b03b-632119ca1452",
+      "id": "c5f367e5-f127-4f4c-8a5b-5ae37d4dc769",
       "name": "AI Agent"
     },
     {
@@ -27,10 +27,10 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        0,
-        4780
+        -180,
+        1100
       ],
-      "id": "b8e5f540-79c7-4f0b-899f-0986243f5f86",
+      "id": "75f68861-e614-441f-9f0d-b407cf506b3a",
       "name": "OpenAI Chat Model",
       "credentials": {
         "openAiApi": {
@@ -48,10 +48,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        380,
-        4600
+        200,
+        920
       ],
-      "id": "f0aa3a17-c616-4ed8-8463-98b361e07b35",
+      "id": "043fba50-34c4-4138-958c-4ffdabefb38f",
       "name": "json인식"
     },
     {
@@ -62,10 +62,10 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        540,
-        4600
+        360,
+        920
       ],
-      "id": "2b05dbdd-086d-4f39-baba-346b2c0f8bd9",
+      "id": "21c2ee7d-ebeb-418e-abc0-b78dc813a2ea",
       "name": "Split Out"
     },
     {
@@ -80,10 +80,10 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        820,
-        4820
+        640,
+        1140
       ],
-      "id": "294d1516-6e86-4cdd-815a-d63c85bca772",
+      "id": "979eca46-f824-4067-a61f-83d3aa7dcaa0",
       "name": "OpenAI Chat Model1",
       "credentials": {
         "openAiApi": {
@@ -101,10 +101,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3,
       "position": [
-        1240,
-        4620
+        1060,
+        940
       ],
-      "id": "31c59983-2bd2-42ec-9e17-a8318cf4081b",
+      "id": "2ea1b43a-0bdb-4f09-86d5-f46589e83ba0",
       "name": "Merge"
     },
     {
@@ -115,10 +115,10 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        1400,
-        4620
+        1220,
+        940
       ],
-      "id": "817c2e23-47e6-4bba-a567-717fcb2cd64e",
+      "id": "7807cc18-f11a-44d5-a341-a9e3a4c276bb",
       "name": "Aggregate"
     },
     {
@@ -133,10 +133,10 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        1700,
-        4800
+        1520,
+        1120
       ],
-      "id": "edef4ec6-5056-4dc5-9e9a-0ac1104fb29c",
+      "id": "13157f1b-3347-498f-9a46-cad6057ae77d",
       "name": "OpenAI Chat Model4",
       "credentials": {
         "openAiApi": {
@@ -154,11 +154,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1620,
-        4480
+        1440,
+        800
       ],
       "typeVersion": 1,
-      "id": "e19e373a-2918-498d-b345-09e4ad015194",
+      "id": "0c0c3f31-1a66-4f65-91ed-737ea00c5f96",
       "name": "Sticky Note"
     },
     {
@@ -170,11 +170,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        720,
-        4480
+        540,
+        800
       ],
       "typeVersion": 1,
-      "id": "90f6349e-ffd8-438e-8734-15d3b6818ef9",
+      "id": "f5739c8c-9817-4dc1-b9db-cf46457655e7",
       "name": "Sticky Note1"
     },
     {
@@ -186,10 +186,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.7,
       "position": [
-        840,
-        4680
+        660,
+        1000
       ],
-      "id": "32fa196c-484b-41a4-bc25-d698767f0a23",
+      "id": "a2b7633f-e4ec-4390-a83d-b315543c9680",
       "name": "Subagent"
     },
     {
@@ -200,11 +200,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        180,
-        3680
+        0,
+        0
       ],
       "typeVersion": 1,
-      "id": "a9633d87-6277-47f4-b5c0-6364bfec9352",
+      "id": "6c4d7d61-b76d-4169-831f-189dc278b21e",
       "name": "Sticky Note2"
     },
     {
@@ -216,11 +216,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -80,
-        4480
+        -260,
+        800
       ],
       "typeVersion": 1,
-      "id": "02c1d9eb-4092-423a-8d71-b50d411d6460",
+      "id": "4a0c89f0-dc1f-4bd9-979b-80a23076809d",
       "name": "Sticky Note3"
     },
     {
@@ -232,11 +232,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1640,
-        5040
+        1460,
+        1360
       ],
       "typeVersion": 1,
-      "id": "841a1b64-abcf-42ed-a645-62ea0d11c58e",
+      "id": "604ebf60-c129-44f3-b53c-b9124faf0659",
       "name": "Sticky Note4"
     },
     {
@@ -248,11 +248,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        740,
-        5060
+        560,
+        1380
       ],
       "typeVersion": 1,
-      "id": "b697009d-c0da-46ef-b02a-88ac1ae30f61",
+      "id": "41cefd5a-9243-4b43-b088-fa72d42e7074",
       "name": "Sticky Note5"
     },
     {
@@ -263,11 +263,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -440,
-        4780
+        -620,
+        1100
       ],
       "typeVersion": 1,
-      "id": "4c80e6b8-17d0-461a-aac9-928ec6a868d6",
+      "id": "4db8ef8a-9776-42b2-b4e0-23fdd947eb24",
       "name": "Sticky Note6"
     },
     {
@@ -279,11 +279,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -80,
-        5080
+        -260,
+        1400
       ],
       "typeVersion": 1,
-      "id": "6efb13bd-8865-467e-9cf6-a6002126428a",
+      "id": "09304a78-3a47-47f9-ab11-3bfe9f37f741",
       "name": "Sticky Note7"
     },
     {
@@ -295,11 +295,25 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.7,
       "position": [
-        1680,
-        4620
+        1500,
+        940
       ],
-      "id": "4bc53e04-969c-4ec5-b999-99b2d3f892ca",
+      "id": "7224e0fc-3214-4511-b65a-d83a3532bffd",
       "name": "Aggregator"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -420,
+        920
+      ],
+      "id": "407fe59e-7707-4e09-8ffe-00ffe3762c4b",
+      "name": "When chat message received",
+      "webhookId": "0699b4a0-4496-434b-b90a-31d1aaac1291"
     }
   ],
   "connections": {
@@ -403,6 +417,17 @@
             "node": "Merge",
             "type": "main",
             "index": 1
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
